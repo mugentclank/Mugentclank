@@ -295,8 +295,8 @@ function fetchJson(u){
 function load(){
   loadingEl.style.display = 'block';
   errEl.style.display = 'none';
-  fetchJson('leaderboard.json')
-    .catch(function(){ return fetchJson(API_URL); })
+  fetchJson(API_URL)
+    .catch(function(){ return fetchJson('leaderboard.json'); })
     .then(applyData)
     .catch(function(){ applyFallback(); });
 }
