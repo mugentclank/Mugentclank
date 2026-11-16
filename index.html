@@ -289,11 +289,14 @@ function applyFallback(){
   document.getElementById('chipUpdated').textContent = 'Snapshot · 15 Nov 2026';
 }
 
+function fetchJson(u){
+  return fetch(u, {cache:'no-store'}).then(function(r){ if(!r.ok) throw new Error('bad response'); return r.json(); });
+}
 function load(){
   loadingEl.style.display = 'block';
   errEl.style.display = 'none';
-  fetch(API_URL, {cache:'no-store'})
-    .then(function(r){ if(!r.ok) throw new Error('bad response'); return r.json(); })
+  fetchJson('leaderboard.json')
+    .catch(function(){ return fetchJson(API_URL); })
     .then(applyData)
     .catch(function(){ applyFallback(); });
 }
