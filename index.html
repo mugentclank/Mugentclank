@@ -307,7 +307,7 @@ document.getElementById('search').addEventListener('input', function(e){
   render(CREATORS.filter(function(c){ return (nameOf(c)+' '+c.address+' '+c.status+' '+c.bestSymbol).toLowerCase().indexOf(q) > -1; }));
 });
 load();
-setInterval(load, 300000);
+setInterval(load, 60000);
 </script>
 </body>
 </html>
