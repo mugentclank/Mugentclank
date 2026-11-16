@@ -269,7 +269,7 @@ function applyData(d){
   document.getElementById('statScanned').textContent = d.scanned;
   document.getElementById('lbSub').textContent = 'Showing live creators from the last '+d.scanned+' launches · '+d.creatorsIndexed+' creators indexed';
   var t = new Date(d.updatedAt);
-  document.getElementById('chipUpdated').textContent = 'Updated '+t.toLocaleString('en-GB',{timeZone:'UTC',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})+' UTC';
+  document.getElementById('chipUpdated').textContent = 'Updated '+t.toLocaleString('en-US',{timeZone:'America/New_York',month:'short',day:'2-digit',hour:'numeric',minute:'2-digit',timeZoneName:'short'});
 }
 
 var FALLBACK_RAW=[
