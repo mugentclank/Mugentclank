@@ -41,7 +41,8 @@ h1 em{font-style:normal;color:var(--blue2)}
 .profile{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
 .profile-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
 .label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);font-weight:800}
-.avatar{width:56px;height:56px;border-radius:16px;background:var(--blue);display:grid;place-items:center;font-weight:900;font-size:22px}
+.avatar{width:56px;height:56px;border-radius:16px;background:var(--blue);display:grid;place-items:center;font-weight:900;font-size:22px;overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover}
 .handle{font-size:20px;font-weight:800;letter-spacing:-.02em;margin-top:14px}
 .sub{color:var(--muted);font-size:14px;margin-top:3px}
 .pill{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}
@@ -81,12 +82,27 @@ h2{font-size:clamp(30px,4.5vw,44px);letter-spacing:-.035em;line-height:1.05;marg
 .rank{font-family:"JetBrains Mono",monospace;color:var(--muted);font-weight:600}
 .creator{font-weight:700;word-break:break-word}
 .creator small{display:block;color:var(--muted2);font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:500;margin-top:2px}
+.creator a:hover{color:var(--blue2)}
 .scorecell{display:flex;align-items:center;gap:10px}
 .scorecell b{font-size:16px;min-width:28px}
 .mini{flex:1;height:6px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;min-width:50px}
 .mini i{display:block;height:100%;background:var(--blue)}
 .footnote{font-size:13.5px;color:var(--muted2);line-height:1.6;margin-top:14px}
 .empty{display:none;padding:36px;text-align:center;color:var(--muted)}
+.loading{padding:36px;text-align:center;color:var(--muted)}
+.errbox{display:none;padding:28px;text-align:center;color:#fde68a}
+.errbox button{margin-top:12px;background:var(--blue);color:#fff;border:0;padding:10px 18px;border-radius:999px;font-weight:700;cursor:pointer;min-height:44px}
+.latest-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px}
+.launch{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;display:block}
+.launch:hover{border-color:rgba(47,107,255,.5)}
+.launch-top{display:flex;gap:12px;align-items:center}
+.launch img{width:44px;height:44px;border-radius:12px;object-fit:cover;background:var(--card2)}
+.launch .sym{font-weight:800;font-size:16px}
+.launch .nm{color:var(--muted2);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px}
+.launch .nums{display:flex;gap:16px;margin-top:14px}
+.launch .nums div span{display:block;font-size:11px;color:var(--muted2);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.launch .nums div b{font-size:14.5px}
+.launch .when{margin-top:12px;color:var(--muted2);font-size:12.5px}
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px}
 .step{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px}
 .step-num{font-family:"JetBrains Mono",monospace;color:var(--blue2);font-weight:700;font-size:13px}
@@ -104,13 +120,13 @@ h2{font-size:clamp(30px,4.5vw,44px);letter-spacing:-.035em;line-height:1.05;marg
 .cta a{background:#fff;color:#0038b8;padding:13px 20px;border-radius:999px;font-weight:800;display:inline-flex;min-height:48px;align-items:center}
 footer{border-top:1px solid var(--line);padding:28px 0 36px;color:var(--muted2);font-size:14px}
 .foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-@media(max-width:900px){.hero-grid{grid-template-columns:1fr}.steps,.features{grid-template-columns:1fr 1fr}.thead{display:none}.row{grid-template-columns:36px 1fr auto;grid-template-areas:"rank creator status" "rank score score" "rank meta meta";row-gap:8px;padding:16px}.rank{grid-area:rank}.creator{grid-area:creator}.scorecell{grid-area:score}.launches{grid-area:meta}.vol{display:none}.statuscell{grid-area:status}.addr-col{display:none}}
-@media(max-width:560px){.steps,.features{grid-template-columns:1fr}.nav-links a:not(.btn){display:none}.hero{padding-top:40px}.meta-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr}.steps,.features,.latest-grid{grid-template-columns:1fr 1fr}.thead{display:none}.row{grid-template-columns:36px 1fr auto;grid-template-areas:"rank creator status" "rank score score" "rank meta meta";row-gap:8px;padding:16px}.rank{grid-area:rank}.creator{grid-area:creator}.scorecell{grid-area:score}.launches{grid-area:meta}.vol{display:none}.statuscell{grid-area:status}.addr-col{display:none}}
+@media(max-width:560px){.steps,.features,.latest-grid{grid-template-columns:1fr}.nav-links a:not(.btn){display:none}.hero{padding-top:40px}.meta-grid{grid-template-columns:1fr 1fr}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-<header><div class="wrap nav"><a class="logo" href="#"><span class="logo-mark">M</span>Mugent<span style="margin-left:-10px">Clank</span></a><nav class="nav-links"><a href="#leaderboard">Leaderboard</a><a href="#methodology">Methodology</a><a href="#features">Why it matters</a><a class="btn" href="#leaderboard">Explore creators</a></nav></div></header>
+<header><div class="wrap nav"><a class="logo" href="#"><span class="logo-mark">M</span>Mugent<span style="margin-left:-10px">Clank</span></a><nav class="nav-links"><a href="#leaderboard">Leaderboard</a><a href="#latest">Latest launches</a><a href="#methodology">Methodology</a><a class="btn" href="#leaderboard">Explore creators</a></nav></div></header>
 
 <main>
 <div class="wrap hero">
@@ -120,38 +136,45 @@ footer{border-top:1px solid var(--line);padding:28px 0 36px;color:var(--muted2);
       <h1>Trust, Scored<br>on <em>Base</em></h1>
       <p class="lead">The onchain reputation layer for Clanker creators on Base. See who's building for real — and who's just launching.</p>
       <div class="hero-actions"><a class="primary" href="#leaderboard">Explore leaderboard →</a><a class="secondary" href="#methodology">Read methodology</a></div>
-      <div class="stats"><div class="stat"><b>37</b><span>Creators indexed</span></div><div class="stat"><b>40 / 100</b><span>Top Vouch Score</span></div><div class="stat"><b>Base</b><span>Clanker ecosystem</span></div></div>
+      <div class="stats"><div class="stat"><b id="statCreators">…</b><span>Creators indexed (live window)</span></div><div class="stat"><b id="statTop">…</b><span>Top Vouch Score</span></div><div class="stat"><b id="statScanned">…</b><span>Recent launches scanned</span></div></div>
       <p style="margin-top:22px;color:var(--muted2);font-size:13.5px">Built by <b style="color:#fff">MugentClank</b> for the Clanker community on Base.</p>
     </div>
     <article class="profile" aria-label="Featured creator profile">
-      <div class="profile-top"><div><div class="label">ClankVouch profile · MugentClank</div><div class="avatar" style="margin-top:14px">J</div></div><span class="pill trusted">● Trusted</span></div>
-      <div class="handle">@junot_yoga</div><div class="sub">@junot_yoga · Clanker creator · 0xd9aC…6e58</div>
-      <div class="score-row"><div><div class="label">Vouch Score</div><div class="score">39<small>/100</small></div></div><div style="text-align:right"><div class="label">Status</div><div style="font-weight:800;margin-top:8px">Active creator</div></div></div>
-      <div class="bar"><i style="width:39%"></i></div>
-      <div class="meta-grid"><div class="meta"><span>24h volume</span><b>—</b></div><div class="meta"><span>Launches</span><b>3 recent</b></div></div>
-      <p class="quote">Observed in 3 recent launches<br><span>Track record, not hype</span></p>
+      <div class="profile-top"><div><div class="label">Top creator · live from Clanker</div><div class="avatar" id="fAvatar" style="margin-top:14px">?</div></div><span class="pill builder" id="fPill">Loading…</span></div>
+      <div class="handle" id="fHandle">Loading live data…</div><div class="sub" id="fSub">Fetching the latest Clanker feed</div>
+      <div class="score-row"><div><div class="label">Vouch Score</div><div class="score"><span id="fScore">–</span><small>/100</small></div></div><div style="text-align:right"><div class="label">Status</div><div style="font-weight:800;margin-top:8px" id="fStatus">—</div></div></div>
+      <div class="bar"><i id="fBar" style="width:0%"></i></div>
+      <div class="meta-grid"><div class="meta"><span>24h volume</span><b id="fVol">—</b></div><div class="meta"><span>Launches (window)</span><b id="fLaunches">—</b></div></div>
+      <p class="quote" id="fQuote">Track record, not hype<br><span>Ranked #1 in the current live window</span></p>
     </article>
   </div>
-  <div class="caveat"><p><b>Recent Clanker activity</b> — scores use observed recent launches, 24h volume, and Clanker trust status. The public API feed is limited and may not reflect full lifetime history.</p><div class="chips"><span class="chip blue">● Live data from Clanker</span><span class="chip">Snapshot · 15 Nov 2026</span></div></div>
+  <div class="caveat"><p><b>Live Clanker activity</b> — this page reads Clanker's public API feed directly. Scores are recalculated from the most recent launches every time the data refreshes, so rankings move with the market.</p><div class="chips"><span class="chip blue">● Live data from Clanker</span><span class="chip" id="chipUpdated">Updating…</span></div></div>
 </div>
 
 <section id="leaderboard"><div class="wrap">
   <div class="label" style="color:var(--blue2)">The reputation index</div>
-  <div class="sec-head"><div><h2>Top creators on Base</h2><p style="margin:0;max-width:560px">Live profiles with a public identity, ranked by the signals Clanker reports.<br><span style="color:#fff;font-weight:600">Showing recently active creators · 37 creators indexed</span></p></div><div class="search"><input id="search" type="search" placeholder="Search creator, address, or status…" aria-label="Search leaderboard"></div></div>
+  <div class="sec-head"><div><h2>Top creators on Base</h2><p style="margin:0;max-width:560px">Live profiles ranked by the signals Clanker reports.<br><span style="color:#fff;font-weight:600" id="lbSub">Loading the live leaderboard…</span></p></div><div class="search"><input id="search" type="search" placeholder="Search creator, address, or status…" aria-label="Search leaderboard"></div></div>
   <div class="table-card">
     <div class="thead"><div>#</div><div>Creator</div><div class="addr-col">Address</div><div>Vouch Score</div><div>Launches</div><div>24h Volume</div><div>Status</div></div>
+    <div class="loading" id="loading">Loading live data from Clanker…</div>
+    <div class="errbox" id="errbox">Live data is unavailable right now.<br><button id="retry" type="button">Retry</button></div>
     <div id="rows"></div>
     <div class="empty" id="empty">No creators match your search. Try a handle, address fragment, or status like “Trusted”.</div>
   </div>
-  <p class="footnote">Launch counts reflect the recent API feed; market volume is the latest available 24-hour value. Vouch Score combines recent launches, logarithmic volume, and confirmed trust; it is an estimate.</p>
+  <p class="footnote">The board is rebuilt from the most recent Clanker launches (up to 500) each refresh. Launch counts reflect that live window — not lifetime history. Vouch Score combines 24h volume, best market cap, holders, launch count, and Clanker's verified flag on a logarithmic scale; it is an estimate.</p>
 </div></section>
 
-<section id="methodology" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><div class="wrap">
+<section id="latest" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><div class="wrap">
+  <div class="label" style="color:var(--blue2)">Fresh off the factory</div><h2>Latest Clanker launches</h2><p class="muted" style="max-width:620px;margin:0">The newest tokens on Clanker, straight from the live feed. Tap a card to open it on Clanker.</p>
+  <div class="latest-grid" id="latestGrid"></div>
+</div></section>
+
+<section id="methodology"><div class="wrap">
   <div class="label" style="color:var(--blue2)">A clearer signal</div><h2>Reputation, made legible.</h2><p class="muted" style="max-width:620px;margin:0">Four steps turn public launch history into context the community can actually use.</p>
   <div class="steps">
-    <article class="step"><div class="step-num">01</div><h3>Track every Clanker launch</h3><p>Start with the public launch history across the Clanker ecosystem on Base.</p></article>
-    <article class="step"><div class="step-num">02</div><h3>Read the full picture</h3><p>Pair recent token launches with the latest available market activity for context.</p></article>
-    <article class="step"><div class="step-num">03</div><h3>Calculate a transparent score</h3><p>Combine recent launches, 24-hour volume, and Clanker trust status into an estimated Vouch Score.</p></article>
+    <article class="step"><div class="step-num">01</div><h3>Track every Clanker launch</h3><p>We scan the most recent launches (up to 500) from Clanker's public API feed on Base, refreshed continuously.</p></article>
+    <article class="step"><div class="step-num">02</div><h3>Read the full picture</h3><p>Pair each creator's launches with live market activity — 24h volume, market cap, and holder counts.</p></article>
+    <article class="step"><div class="step-num">03</div><h3>Calculate a transparent score</h3><p>Combine those signals on a logarithmic scale, plus a bonus for Clanker's verified flag, into an estimated Vouch Score.</p></article>
     <article class="step"><div class="step-num">04</div><h3>Find the real builders</h3><p>Give the community a faster way to discover creators with a consistent track record.</p></article>
   </div>
   <div class="disclaimer"><b>Disclaimer:</b> The Vouch Score is a reputation signal — not a safety guarantee or financial advice.</div>
@@ -171,62 +194,117 @@ footer{border-top:1px solid var(--line);padding:28px 0 36px;color:var(--muted2);
 <footer><div class="wrap foot"><div>© 2026 MugentClank · Built for the Clanker community on Base</div><div>Trust, Scored on Base</div></div></footer>
 
 <script>
-var DATA=[
-[1,"0x1afa…6C81","0x1afa…6C81",40,5,"—","Builder"],
-[2,"@junot_yoga","0xd9aC…6e58",39,3,"—","Trusted"],
-[3,"0x6b94…eCfe","0x6b94…eCfe",38,1,"$17.31K","Builder"],
-[4,"SON @satoushi","0x36Ab…000d",24,3,"—","Risky"],
-[5,"0x4C29…eB7D","0x4C29…eB7D",24,3,"—","Risky"],
-[6,"0xF6A0…dCe9","0xF6A0…dCe9",16,2,"—","Risky"],
-[7,"0x2d93…a5fD","0x2d93…a5fD",16,2,"—","Risky"],
-[8,"0xa58c…a755","0xa58c…a755",16,2,"—","Risky"],
-[9,"0x9435…D959","0x9435…D959",13,1,"$4","Risky"],
-[10,"0x6bbB…a2Ff","0x6bbB…a2Ff",8,1,"—","Risky"],
-[11,"0xfC76…c26a","0xfC76…c26a",8,1,"—","Risky"],
-[12,"0x24d0…ce9E","0x24d0…ce9E",8,1,"—","Risky"],
-[13,"0xB4Bc…85c7","0xB4Bc…85c7",8,1,"—","Risky"],
-[14,"0xB85D…f583","0xB85D…f583",8,1,"—","Risky"],
-[15,"0xCBd9…6478","0xCBd9…6478",8,1,"—","Risky"],
-[16,"0x653a…12F0","0x653a…12F0",8,1,"—","Risky"],
-[17,"0x482C…C39d","0x482C…C39d",8,1,"—","Risky"],
-[18,"0xee53…DA77","0xee53…DA77",8,1,"—","Risky"],
-[19,"0x8701…31E0","0x8701…31E0",8,1,"—","Risky"],
-[20,"0x9885…b059","0x9885…b059",8,1,"—","Risky"],
-[21,"0xDF84…fAD3","0xDF84…fAD3",8,1,"—","Risky"],
-[22,"0x8Fa2…4404","0x8Fa2…4404",8,1,"—","Risky"],
-[23,"0x186B…e0b0","0x186B…e0b0",8,1,"—","Risky"],
-[24,"0xe2da…4615","0xe2da…4615",8,1,"—","Risky"],
-[25,"0x5654…E71f","0x5654…E71f",8,1,"—","Risky"],
-[26,"0xe81C…8f14","0xe81C…8f14",8,1,"—","Risky"],
-[27,"0x4E4B…7084","0x4E4B…7084",8,1,"—","Risky"],
-[28,"Kevin @kevincodex","0xb499…79C0",8,1,"—","Risky"],
-[29,"0xa3CF…86D0","0xa3CF…86D0",8,1,"—","Risky"],
-[30,"0x8863…A876","0x8863…A876",8,1,"—","Risky"],
-[31,"0x7144…D9Cc","0x7144…D9Cc",8,1,"—","Risky"],
-[32,"0xbEbd…a756","0xbEbd…a756",8,1,"—","Risky"],
-[33,"0xB9EE…c242","0xB9EE…c242",8,1,"—","Risky"],
-[34,"0xF953…3A2d","0xF953…3A2d",8,1,"—","Risky"],
-[35,"0x0cb1…c866","0x0cb1…c866",8,1,"—","Risky"],
-[36,"0x8D00…b427","0x8D00…b427",8,1,"—","Risky"],
-[37,"0x69Cd…d96F","0x69Cd…d96F",8,1,"—","Risky"]
-];
-var rowsEl=document.getElementById('rows'), emptyEl=document.getElementById('empty');
-function pill(s){var c=s==='Trusted'?'trusted':s==='Builder'?'builder':'risky';return '<span class="pill '+c+'">'+s+'</span>'}
-function render(list){
- rowsEl.innerHTML=list.map(function(r){
-  var launch=r[4]===1?'1 launch':r[4]+' launches';
-  var name=r[1], addr=r[2];
-  var creatorHtml = name===addr ? '<div class="creator">'+name+'</div>' : '<div class="creator">'+name+'<small>'+addr+'</small></div>';
-  return '<div class="row"><div class="rank">'+String(r[0]).padStart(2,'0')+'</div>'+creatorHtml+'<div class="addr-col" style="font-family:JetBrains Mono,monospace;font-size:13px;color:var(--muted)">'+addr+'</div><div class="scorecell"><b>'+r[3]+'</b><div class="mini"><i style="width:'+r[3]+'%"></i></div><span style="color:var(--muted2);font-size:12px">/100</span></div><div class="launches" style="color:var(--muted)">'+launch+'</div><div class="vol" style="color:var(--muted)">'+r[5]+'</div><div class="statuscell">'+pill(r[6])+'</div></div>';
- }).join('');
- emptyEl.style.display=list.length?'none':'block';
+var API_URL = "https://raspy-term-16e0.mugentclank.workers.dev/api/leaderboard";
+var CREATORS = [];
+var rowsEl = document.getElementById('rows'), emptyEl = document.getElementById('empty'),
+    loadingEl = document.getElementById('loading'), errEl = document.getElementById('errbox');
+
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function shortAddr(a){return a ? a.slice(0,6)+'…'+a.slice(-4) : ''}
+function fmtMoney(v){
+  if(v==null||isNaN(v)) return '—';
+  if(v<=0) return '$0';
+  if(v>=1e6) return '$'+(v/1e6).toFixed(2)+'M';
+  if(v>=1e3) return '$'+(v/1e3).toFixed(2)+'K';
+  if(v>=1) return '$'+v.toFixed(2);
+  return '$'+v.toFixed(4);
 }
-render(DATA);
-document.getElementById('search').addEventListener('input',function(e){
- var q=e.target.value.trim().toLowerCase();
- if(!q){render(DATA);return}
- render(DATA.filter(function(r){return (r[1]+' '+r[2]+' '+r[6]+' '+r[0]).toLowerCase().indexOf(q)>-1}));
+function pill(s){var c=s==='Trusted'?'trusted':s==='Builder'?'builder':'risky';return '<span class="pill '+c+'">'+s+'</span>'}
+function nameOf(c){return c.handle || (c.bestName ? c.bestName+' ($'+c.bestSymbol+')' : shortAddr(c.address))}
+
+function render(list){
+  rowsEl.innerHTML = list.map(function(c, i){
+    var launch = c.launches===1 ? '1 launch' : c.launches+' launches';
+    var name = nameOf(c);
+    var nameHtml = c.bestToken ? '<a href="https://www.clanker.world/clanker/'+esc(c.bestToken)+'" target="_blank" rel="noopener">'+esc(name)+'</a>' : esc(name);
+    var small = c.bestSymbol ? esc(shortAddr(c.address))+' · best: $'+esc(c.bestSymbol) : esc(shortAddr(c.address));
+    var creatorHtml = '<div class="creator">'+nameHtml+'<small>'+small+'</small></div>';
+    return '<div class="row"><div class="rank">'+String(i+1).padStart(2,'0')+'</div>'+creatorHtml+'<div class="addr-col" style="font-family:JetBrains Mono,monospace;font-size:13px;color:var(--muted)">'+esc(shortAddr(c.address))+'</div><div class="scorecell"><b>'+c.score+'</b><div class="mini"><i style="width:'+c.score+'%"></i></div><span style="color:var(--muted2);font-size:12px">/100</span></div><div class="launches" style="color:var(--muted)">'+launch+'</div><div class="vol" style="color:var(--muted)">'+(c.volText || fmtMoney(c.vol24h))+'</div><div class="statuscell">'+pill(c.status)+'</div></div>';
+  }).join('');
+  emptyEl.style.display = list.length ? 'none' : 'block';
+}
+
+function renderFeatured(c){
+  if(!c) return;
+  var name = nameOf(c);
+  document.getElementById('fAvatar').textContent = (name.replace('@','').charAt(0) || '?').toUpperCase();
+  document.getElementById('fHandle').textContent = name;
+  document.getElementById('fSub').textContent = c.bestToken ? shortAddr(c.address)+' · best token $'+c.bestSymbol+' · '+fmtMoney(c.bestMcap)+' mcap · '+c.holders+' holders' : shortAddr(c.address)+' · Snapshot · 15 Nov 2026';
+  var p = document.getElementById('fPill');
+  p.textContent = '● '+c.status;
+  p.className = 'pill '+(c.status==='Trusted'?'trusted':c.status==='Builder'?'builder':'risky');
+  document.getElementById('fScore').textContent = c.score;
+  document.getElementById('fStatus').textContent = c.status+' creator';
+  document.getElementById('fBar').style.width = c.score+'%';
+  document.getElementById('fVol').textContent = c.volText || fmtMoney(c.vol24h);
+  document.getElementById('fLaunches').textContent = c.launches;
+  document.getElementById('fQuote').innerHTML = c.bestToken ? 'Best token: <a href="https://www.clanker.world/clanker/'+esc(c.bestToken)+'" target="_blank" rel="noopener" style="text-decoration:underline">$'+esc(c.bestSymbol)+' on Clanker</a><br><span>Track record, not hype</span>' : 'Observed in recent launches<br><span>Track record, not hype</span>';
+}
+
+function timeAgo(iso){
+  var s = Math.max(0,(Date.now()-new Date(iso).getTime())/1000);
+  if(s<90) return 'just now';
+  if(s<3600) return Math.round(s/60)+'m ago';
+  if(s<86400) return Math.round(s/3600)+'h ago';
+  return Math.round(s/86400)+'d ago';
+}
+
+function renderLatest(list){
+  document.getElementById('latestGrid').innerHTML = list.map(function(t){
+    var img = t.img ? '<img src="'+esc(t.img)+'" alt="" loading="lazy" onerror="this.style.display=\'none\'">' : '';
+    return '<a class="launch" href="https://www.clanker.world/clanker/'+esc(t.token)+'" target="_blank" rel="noopener"><div class="launch-top">'+img+'<div><div class="sym">$'+esc(t.symbol)+'</div><div class="nm">'+esc(t.name)+'</div></div></div><div class="nums"><div><span>Mcap</span><b>'+fmtMoney(t.marketCap)+'</b></div><div><span>Vol 24h</span><b>'+fmtMoney(t.vol24h)+'</b></div></div><div class="when">Launched '+timeAgo(t.createdAt)+'</div></a>';
+  }).join('');
+}
+
+function applyData(d){
+  CREATORS = d.creators || [];
+  loadingEl.style.display = 'none';
+  errEl.style.display = 'none';
+  render(CREATORS);
+  renderFeatured(CREATORS[0]);
+  renderLatest(d.latest || []);
+  document.getElementById('statCreators').textContent = d.creatorsIndexed;
+  document.getElementById('statTop').textContent = CREATORS.length ? CREATORS[0].score+' / 100' : '—';
+  document.getElementById('statScanned').textContent = d.scanned;
+  document.getElementById('lbSub').textContent = 'Showing live creators from the last '+d.scanned+' launches · '+d.creatorsIndexed+' creators indexed';
+  var t = new Date(d.updatedAt);
+  document.getElementById('chipUpdated').textContent = 'Updated '+t.toLocaleString('en-GB',{timeZone:'Asia/Jakarta',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})+' WIB';
+}
+
+var FALLBACK_RAW=[
+["0x1afa…6C81","0x1afa…6C81",40,5,"—","Builder"],["@junot_yoga","0xd9aC…6e58",39,3,"—","Trusted"],["0x6b94…eCfe","0x6b94…eCfe",38,1,"$17.31K","Builder"],["SON @satoushi","0x36Ab…000d",24,3,"—","Risky"],["0x4C29…eB7D","0x4C29…eB7D",24,3,"—","Risky"],["0xF6A0…dCe9","0xF6A0…dCe9",16,2,"—","Risky"],["0x2d93…a5fD","0x2d93…a5fD",16,2,"—","Risky"],["0xa58c…a755","0xa58c…a755",16,2,"—","Risky"],["0x9435…D959","0x9435…D959",13,1,"$4","Risky"],["0x6bbB…a2Ff","0x6bbB…a2Ff",8,1,"—","Risky"],["0xfC76…c26a","0xfC76…c26a",8,1,"—","Risky"],["0x24d0…ce9E","0x24d0…ce9E",8,1,"—","Risky"],["0xB4Bc…85c7","0xB4Bc…85c7",8,1,"—","Risky"],["0xB85D…f583","0xB85D…f583",8,1,"—","Risky"],["0xCBd9…6478","0xCBd9…6478",8,1,"—","Risky"],["0x653a…12F0","0x653a…12F0",8,1,"—","Risky"],["0x482C…C39d","0x482C…C39d",8,1,"—","Risky"],["0xee53…DA77","0xee53…DA77",8,1,"—","Risky"],["0x8701…31E0","0x8701…31E0",8,1,"—","Risky"],["0x9885…b059","0x9885…b059",8,1,"—","Risky"],["0xDF84…fAD3","0xDF84…fAD3",8,1,"—","Risky"],["0x8Fa2…4404","0x8Fa2…4404",8,1,"—","Risky"],["0x186B…e0b0","0x186B…e0b0",8,1,"—","Risky"],["0xe2da…4615","0xe2da…4615",8,1,"—","Risky"],["0x5654…E71f","0x5654…E71f",8,1,"—","Risky"],["0xe81C…8f14","0xe81C…8f14",8,1,"—","Risky"],["0x4E4B…7084","0x4E4B…7084",8,1,"—","Risky"],["Kevin @kevincodex","0xb499…79C0",8,1,"—","Risky"],["0xa3CF…86D0","0xa3CF…86D0",8,1,"—","Risky"],["0x8863…A876","0x8863…A876",8,1,"—","Risky"],["0x7144…D9Cc","0x7144…D9Cc",8,1,"—","Risky"],["0xbEbd…a756","0xbEbd…a756",8,1,"—","Risky"],["0xB9EE…c242","0xB9EE…c242",8,1,"—","Risky"],["0xF953…3A2d","0xF953…3A2d",8,1,"—","Risky"],["0x0cb1…c866","0x0cb1…c866",8,1,"—","Risky"],["0x8D00…b427","0x8D00…b427",8,1,"—","Risky"],["0x69Cd…d96F","0x69Cd…d96F",8,1,"—","Risky"]
+];
+var FALLBACK = FALLBACK_RAW.map(function(r){return {handle: r[0]!==r[1]?r[0]:null, address:r[1], score:r[2], launches:r[3], volText:r[4], vol24h:0, status:r[5], bestSymbol:'', bestName:'', bestToken:'', bestMcap:0, holders:0};});
+function applyFallback(){
+  CREATORS = FALLBACK;
+  loadingEl.style.display = 'none';
+  errEl.style.display = 'none';
+  render(CREATORS);
+  renderFeatured(FALLBACK[1]);
+  document.getElementById('latestGrid').innerHTML = '<p class="muted">Live feed unavailable right now — showing the leaderboard snapshot instead.</p>';
+  document.getElementById('statCreators').textContent = '37';
+  document.getElementById('statTop').textContent = '40 / 100';
+  document.getElementById('statScanned').textContent = '—';
+  document.getElementById('lbSub').textContent = 'Live feed unavailable — showing the snapshot of 15 Nov 2026';
+  document.getElementById('chipUpdated').textContent = 'Snapshot · 15 Nov 2026';
+}
+
+function load(){
+  loadingEl.style.display = 'block';
+  errEl.style.display = 'none';
+  fetch(API_URL, {cache:'no-store'})
+    .then(function(r){ if(!r.ok) throw new Error('bad response'); return r.json(); })
+    .then(applyData)
+    .catch(function(){ applyFallback(); });
+}
+document.getElementById('retry').addEventListener('click', load);
+document.getElementById('search').addEventListener('input', function(e){
+  var q = e.target.value.trim().toLowerCase();
+  if(!q){ render(CREATORS); return; }
+  render(CREATORS.filter(function(c){ return (nameOf(c)+' '+c.address+' '+c.status+' '+c.bestSymbol).toLowerCase().indexOf(q) > -1; }));
 });
+load();
+setInterval(load, 300000);
 </script>
 </body>
 </html>
