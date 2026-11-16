@@ -95,6 +95,9 @@ h2{font-size:clamp(30px,4.5vw,44px);letter-spacing:-.035em;line-height:1.05;marg
 .errbox button{margin-top:12px;background:var(--blue);color:#fff;border:0;padding:10px 18px;border-radius:999px;font-weight:700;cursor:pointer;min-height:44px}
 .latest-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px}
 .launch{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;display:block}
+.chg{font-weight:700}
+.chg.up{color:#34d399}
+.chg.down{color:#f87171}
 .launch:hover{border-color:rgba(47,107,255,.5)}
 .launch-top{display:flex;gap:12px;align-items:center}
 .launch img{width:44px;height:44px;border-radius:12px;object-fit:cover;background:var(--card2)}
@@ -127,7 +130,7 @@ footer{border-top:1px solid var(--line);padding:28px 0 36px;color:var(--muted2);
 </style>
 </head>
 <body>
-<header><div class="wrap nav"><a class="logo" href="#"><span class="logo-mark">M</span>Mugent<span style="margin-left:-10px">Clank</span></a><nav class="nav-links"><a href="#leaderboard">Leaderboard</a><a href="#latest">Latest launches</a><a href="#methodology">Methodology</a><a class="xlink" href="https://x.com/mugentclank" target="_blank" rel="noopener" aria-label="MugentClank on X"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span>@mugentclank</span></a><a class="btn" href="#leaderboard">Explore creators</a></nav></div></header>
+<header><div class="wrap nav"><a class="logo" href="#"><span class="logo-mark">M</span>Mugent<span style="margin-left:-10px">Clank</span></a><nav class="nav-links"><a href="#leaderboard">Leaderboard</a><a href="#latest">Latest launches</a><a href="#trending">Trending</a><a href="#methodology">Methodology</a><a class="xlink" href="https://x.com/mugentclank" target="_blank" rel="noopener" aria-label="MugentClank on X"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span>@mugentclank</span></a><a class="btn" href="#leaderboard">Explore creators</a></nav></div></header>
 
 <main>
 <div class="wrap hero">
@@ -165,6 +168,10 @@ footer{border-top:1px solid var(--line);padding:28px 0 36px;color:var(--muted2);
   <p class="footnote">The board is rebuilt from the most recent Clanker launches (up to 500) each refresh. Launch counts reflect that live window — not lifetime history. Vouch Score combines 24h volume, best market cap, holders, launch count, and Clanker's verified flag on a logarithmic scale; it is an estimate.</p>
 </div></section>
 
+<section id="trending"><div class="wrap">
+  <div class="label" style="color:var(--blue2)">Trending · Last 24 hours</div><h2>Trending on Clanker</h2><p class="muted" style="max-width:620px;margin:0">The tokens moving the most on Clanker right now — the same trending board as clanker.world. Tap a card to open it on Clanker.</p>
+  <div class="latest-grid" id="trendGrid"></div>
+</div></section>
 <section id="latest" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><div class="wrap">
   <div class="label" style="color:var(--blue2)">Fresh off the factory</div><h2>Latest Clanker launches</h2><p class="muted" style="max-width:620px;margin:0">The newest tokens on Clanker, straight from the live feed. Tap a card to open it on Clanker.</p>
   <div class="latest-grid" id="latestGrid"></div>
@@ -257,6 +264,16 @@ function renderLatest(list){
   }).join('');
 }
 
+function renderTrending(list){
+  var el = document.getElementById('trendGrid');
+  if(!list || !list.length){ el.innerHTML = '<p class="muted">Trending data unavailable right now.</p>'; return; }
+  el.innerHTML = list.map(function(t, i){
+    var img = t.img ? '<img src="'+esc(t.img)+'" alt="" loading="lazy" onerror="this.style.display=\'none\'">' : '';
+    var chg = (t.change24h >= 0 ? '+' : '') + t.change24h.toFixed(1) + '%';
+    var cls = t.change24h >= 0 ? 'up' : 'down';
+    return '<a class="launch" href="https://www.clanker.world/clanker/'+esc(t.token)+'" target="_blank" rel="noopener"><div class="launch-top">'+img+'<div><div class="sym">#'+(i+1)+' $'+esc(t.symbol)+'</div><div class="nm">'+esc(t.name)+'</div></div></div><div class="nums"><div><span>Mcap</span><b>'+fmtMoney(t.marketCap)+'</b></div><div><span>Vol 24h</span><b>'+fmtMoney(t.vol24h)+'</b></div></div><div class="when">24h <span class="chg '+cls+'">'+chg+'</span> · '+Number(t.holders||0).toLocaleString('en-US')+' holders</div></a>';
+  }).join('');
+}
 function applyData(d){
   CREATORS = d.creators || [];
   loadingEl.style.display = 'none';
@@ -264,6 +281,7 @@ function applyData(d){
   render(CREATORS);
   renderFeatured(CREATORS[0]);
   renderLatest(d.latest || []);
+  renderTrending(d.trending || []);
   document.getElementById('statCreators').textContent = d.creatorsIndexed;
   document.getElementById('statTop').textContent = CREATORS.length ? CREATORS[0].score+' / 100' : '—';
   document.getElementById('statScanned').textContent = d.scanned;
@@ -283,6 +301,7 @@ function applyFallback(){
   render(CREATORS);
   renderFeatured(FALLBACK[1]);
   document.getElementById('latestGrid').innerHTML = '<p class="muted">Live feed unavailable right now — showing the leaderboard snapshot instead.</p>';
+  document.getElementById('trendGrid').innerHTML = '<p class="muted">Live feed unavailable right now.</p>';
   document.getElementById('statCreators').textContent = '37';
   document.getElementById('statTop').textContent = '40 / 100';
   document.getElementById('statScanned').textContent = '—';
