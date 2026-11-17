@@ -346,15 +346,21 @@ function applyFallback(){
 }
 
 function fetchJson(u){
-  return fetch(u, {cache:'no-store'}).then(function(r){ if(!r.ok) throw new Error('bad response'); return r.json(); });
+  var ctrl = ('AbortController' in window) ? new AbortController() : null;
+  var timer = ctrl ? setTimeout(function(){ ctrl.abort(); }, 7000) : null;
+  var opts = {cache:'no-store'};
+  if(ctrl) opts.signal = ctrl.signal;
+  return fetch(u, opts).then(function(r){ if(timer) clearTimeout(timer); if(!r.ok) throw new Error('bad response'); return r.json(); }).catch(function(e){ if(timer) clearTimeout(timer); throw e; });
 }
 function load(){
   loadingEl.style.display = 'block';
   errEl.style.display = 'none';
+  var settled = false;
+  var guard = setTimeout(function(){ if(!settled){ settled = true; applyFallback(); } }, 10000);
   fetchJson(API_URL)
     .catch(function(){ return fetchJson('leaderboard.json'); })
-    .then(applyData)
-    .catch(function(){ applyFallback(); });
+    .then(function(d){ if(!settled){ settled = true; clearTimeout(guard); applyData(d); } })
+    .catch(function(){ if(!settled){ settled = true; clearTimeout(guard); applyFallback(); } });
 }
 document.getElementById('retry').addEventListener('click', load);
 document.getElementById('search').addEventListener('input', function(e){
