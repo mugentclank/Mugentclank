@@ -370,6 +370,8 @@ document.getElementById('search').addEventListener('input', function(e){
 });
 document.getElementById('sortSel').addEventListener('change', function(e){ SORT_KEY = e.target.value; render(CREATORS); });
 document.getElementById('trustedOnly').addEventListener('change', function(e){ TRUSTED_ONLY = e.target.checked; render(CREATORS); });
+load();
+setInterval(load, 60000);
 </script>
 </body>
 </html>
