@@ -168,18 +168,6 @@ footer{border-top:1px solid var(--line);padding:28px 0 36px;color:var(--muted2);
   <div class="caveat"><p><b>Live Clanker activity</b> — this page reads Clanker's public API feed directly. Scores are recalculated from the most recent launches every time the data refreshes, so rankings move with the market.</p><div class="chips"><span class="chip blue">● Live data from Clanker</span><span class="chip" id="chipUpdated">Updating…</span></div></div>
 </div>
 
-<section id="muclank" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><div class="wrap">
-  <div class="label" style="color:var(--blue2)">Our token</div>
-  <div class="sec-head"><div><h2>$MUCLANK — the MugentClank coin</h2><p style="margin:0;max-width:560px">The official token of this board, launched on Clanker v5. Supply 1B, 100% in the pool, liquidity locked forever, 2%/2% tax — and no dev buy: the deployer holds zero.</p></div><a class="btn" href="https://www.clanker.world/clanker/0x08C800d2D7212Df826cfBB9a9EB0fA27353AcCcC" target="_blank" rel="noopener">View on Clanker</a></div>
-  <div class="mu-stats">
-    <div class="meta"><span>Price</span><b id="muPrice">—</b></div>
-    <div class="meta"><span>Market cap</span><b id="muMcap">—</b></div>
-    <div class="meta"><span>Liquidity</span><b id="muLiq">—</b></div>
-    <div class="meta"><span>Vol 24h</span><b id="muVol">—</b></div>
-  </div>
-  <p style="margin:16px 0 0;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--muted);word-break:break-all">CA: 0x08C800d2D7212Df826cfBB9a9EB0fA27353AcCcC <button id="muCopy" type="button" style="margin-left:8px;background:rgba(255,255,255,.06);color:#fff;border:1px solid var(--line);border-radius:8px;padding:3px 10px;font-size:12px;cursor:pointer">Copy</button></p>
-</div></section>
-
 <section id="leaderboard"><div class="wrap">
   <div class="label" style="color:var(--blue2)">The reputation index</div>
   <div class="sec-head"><div><h2>Top creators on Base</h2><p style="margin:0;max-width:560px">Live profiles ranked by the signals Clanker reports.<br><span style="color:#fff;font-weight:600" id="lbSub">Loading the live leaderboard…</span></p></div><div class="search"><input id="search" type="search" placeholder="Search creator, address, or status…" aria-label="Search leaderboard"></div></div>
@@ -376,31 +364,6 @@ document.getElementById('search').addEventListener('input', function(e){
 });
 document.getElementById('sortSel').addEventListener('change', function(e){ SORT_KEY = e.target.value; render(CREATORS); });
 document.getElementById('trustedOnly').addEventListener('change', function(e){ TRUSTED_ONLY = e.target.checked; render(CREATORS); });
-function fmtPrice(v){
-  if(v==null||isNaN(v)) return '—';
-  if(v>=0.01) return '$'+Number(v).toFixed(4);
-  return '$'+Number(v).toFixed(8);
-}
-function loadMuclank(){
-  fetch('https://raspy-term-16e0.mugentclank.workers.dev/api/muclank').then(function(r){return r.json()}).then(function(d){
-    if(!d || d.error) return;
-    document.getElementById('muPrice').textContent = fmtPrice(d.price);
-    document.getElementById('muMcap').textContent = d.marketCap!=null ? fmtMoney(d.marketCap) : '—';
-    document.getElementById('muLiq').textContent = d.liquidity!=null ? fmtMoney(d.liquidity) : '—';
-    document.getElementById('muVol').textContent = d.vol24h!=null ? fmtMoney(d.vol24h) : '—';
-  }).catch(function(){});
-}
-var muCopyBtn = document.getElementById('muCopy');
-if(muCopyBtn) muCopyBtn.addEventListener('click', function(){
-  var done = function(){ muCopyBtn.textContent = 'Copied'; setTimeout(function(){ muCopyBtn.textContent = 'Copy'; }, 1600); };
-  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText('0x08C800d2D7212Df826cfBB9a9EB0fA27353AcCcC').then(done).catch(done);
-  else done();
-});
-
-load();
-setInterval(load, 60000);
-loadMuclank();
-setInterval(loadMuclank, 60000);
 </script>
 </body>
 </html>
