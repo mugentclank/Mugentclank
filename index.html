@@ -75,7 +75,7 @@ h2{font-size:clamp(30px,4.5vw,44px);letter-spacing:-.035em;line-height:1.05;marg
 .search input{width:100%;min-height:48px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:#fff;padding:0 16px;font-size:15px;outline:none}
 .search input:focus{border-color:var(--blue)}
 .table-card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden}
-.thead,.row{display:grid;grid-template-columns:52px 1.6fr .7fr 1.1fr .6fr .7fr .7fr;gap:12px;align-items:center;padding:14px 18px}
+.thead,.row{display:grid;grid-template-columns:52px 1.5fr .65fr 1fr .55fr .65fr .75fr .65fr;gap:12px;align-items:center;padding:14px 18px}
 .thead{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);font-weight:800;background:rgba(255,255,255,.02);border-bottom:1px solid var(--line)}
 .row{border-bottom:1px solid rgba(255,255,255,.05);font-size:14.5px}
 .row:last-child{border-bottom:0}
@@ -124,7 +124,7 @@ h2{font-size:clamp(30px,4.5vw,44px);letter-spacing:-.035em;line-height:1.05;marg
 .cta a{background:#fff;color:#0038b8;padding:13px 20px;border-radius:999px;font-weight:800;display:inline-flex;min-height:48px;align-items:center}
 footer{border-top:1px solid var(--line);padding:28px 0 36px;color:var(--muted2);font-size:14px}
 .foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-@media(max-width:900px){.hero-grid{grid-template-columns:1fr}.steps,.features,.latest-grid{grid-template-columns:1fr 1fr}.thead{display:none}.row{grid-template-columns:36px 1fr auto;grid-template-areas:"rank creator status" "rank score score" "rank meta meta";row-gap:8px;padding:16px}.rank{grid-area:rank}.creator{grid-area:creator}.scorecell{grid-area:score}.launches{grid-area:meta}.vol{display:none}.statuscell{grid-area:status}.addr-col{display:none}}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr}.steps,.features,.latest-grid{grid-template-columns:1fr 1fr}.thead{display:none}.row{grid-template-columns:36px 1fr auto;grid-template-areas:"rank creator status" "rank score score" "rank meta meta";row-gap:8px;padding:16px}.rank{grid-area:rank}.creator{grid-area:creator}.scorecell{grid-area:score}.launches{grid-area:meta}.vol{display:none}.mcap{grid-area:meta;justify-self:end}.statuscell{grid-area:status}.addr-col{display:none}}
 @media(max-width:560px){.steps,.features,.latest-grid{grid-template-columns:1fr}.nav-links a:not(.btn){display:none}header .nav-links a.xlink{display:inline-flex}.hero{padding-top:40px}.meta-grid{grid-template-columns:1fr 1fr}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style>
@@ -159,7 +159,7 @@ footer{border-top:1px solid var(--line);padding:28px 0 36px;color:var(--muted2);
   <div class="label" style="color:var(--blue2)">The reputation index</div>
   <div class="sec-head"><div><h2>Top creators on Base</h2><p style="margin:0;max-width:560px">Live profiles ranked by the signals Clanker reports.<br><span style="color:#fff;font-weight:600" id="lbSub">Loading the live leaderboard…</span></p></div><div class="search"><input id="search" type="search" placeholder="Search creator, address, or status…" aria-label="Search leaderboard"></div></div>
   <div class="table-card">
-    <div class="thead"><div>#</div><div>Creator</div><div class="addr-col">Address</div><div>Vouch Score</div><div>Launches</div><div>24h Volume</div><div>Status</div></div>
+    <div class="thead"><div>#</div><div>Creator</div><div class="addr-col">Address</div><div>Vouch Score</div><div>Launches</div><div>24h Volume</div><div>Best Mcap</div><div>Status</div></div>
     <div class="loading" id="loading">Loading live data from Clanker…</div>
     <div class="errbox" id="errbox">Live data is unavailable right now.<br><button id="retry" type="button">Retry</button></div>
     <div id="rows"></div>
@@ -227,7 +227,7 @@ function render(list){
     var nameHtml = c.bestToken ? '<a href="https://www.clanker.world/clanker/'+esc(c.bestToken)+'" target="_blank" rel="noopener">'+esc(name)+'</a>' : esc(name);
     var small = c.bestSymbol ? esc(shortAddr(c.address))+' · best: $'+esc(c.bestSymbol) : esc(shortAddr(c.address));
     var creatorHtml = '<div class="creator">'+nameHtml+'<small>'+small+'</small></div>';
-    return '<div class="row"><div class="rank">'+String(i+1).padStart(2,'0')+'</div>'+creatorHtml+'<div class="addr-col" style="font-family:JetBrains Mono,monospace;font-size:13px;color:var(--muted)">'+esc(shortAddr(c.address))+'</div><div class="scorecell"><b>'+c.score+'</b><div class="mini"><i style="width:'+c.score+'%"></i></div><span style="color:var(--muted2);font-size:12px">/100</span></div><div class="launches" style="color:var(--muted)">'+launch+'</div><div class="vol" style="color:var(--muted)">'+(c.volText || fmtMoney(c.vol24h))+'</div><div class="statuscell">'+pill(c.status)+'</div></div>';
+    return '<div class="row"><div class="rank">'+String(i+1).padStart(2,'0')+'</div>'+creatorHtml+'<div class="addr-col" style="font-family:JetBrains Mono,monospace;font-size:13px;color:var(--muted)">'+esc(shortAddr(c.address))+'</div><div class="scorecell"><b>'+c.score+'</b><div class="mini"><i style="width:'+c.score+'%"></i></div><span style="color:var(--muted2);font-size:12px">/100</span></div><div class="launches" style="color:var(--muted)">'+launch+'</div><div class="vol" style="color:var(--muted)">'+(c.volText || fmtMoney(c.vol24h))+'</div><div class="mcap" style="color:var(--muted)">'+(c.bestMcap ? fmtMoney(c.bestMcap) : '—')+'</div><div class="statuscell">'+pill(c.status)+'</div></div>';
   }).join('');
   emptyEl.style.display = list.length ? 'none' : 'block';
 }
